@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ирина Полухина | Документовед</title>
+    
+    <style>
+
+
+        /* -----------------------------------------------------------
+           1. ДИЗАЙН-СИСТЕМА (Times New Roman)
+           ----------------------------------------------------------- */
+        :root {
+            --bg-body: #E8F4FD;       /* Нежно-голубой */
+            --bg-card: #FFFFFF;       /* Белый */
+            
+            --text-primary: #002147;  /* Темно-синий */
+            --text-muted: #4A6B8A;    /* Серо-синий (для подписи) */
+            
+            --accent-core: #002147;   /* Основной акцент */
+            --accent-bright: #1E4E8C; /* Яркий синий (hover) */
+            
+            --border-ui: #D1E3F6;     /* Тонкие линии */
+            
+            --container-width: 1200px;
+            --header-height: 110px;
+            
+            --radius-btn: 50px;       /* Овальные кнопки */
+            --radius-card: 20px;      /* Скругление блоков */
+            
+            --shadow-soft: 0 10px 40px rgba(0, 33, 71, 0.08);
+            
+            --font-main: 'Times New Roman', Times, serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-body);
+            color: var(--text-primary);
+            line-height: 1.5;
+            font-size: 18px;
+            overflow-x: hidden;
+            padding-top: var(--header-height);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* -----------------------------------------------------------
+           2. UI КОМПОНЕНТЫ
+           ----------------------------------------------------------- */
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 24px;
+            position: relative;
+            z-index: 2;
+        }
+
+        h1, h2, h3 { 
+            font-weight: normal; 
+            line-height: 1.2; 
+            color: var(--accent-core);
+            text-align: center;
+        }
+        
+        h1 { 
+            font-size: clamp(2.5rem, 6vw, 4rem); 
+            margin-bottom: 25px; 
+        }
+        
+        h2 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 50px;
+            font-style: italic;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+        /* Декоративная линия */
+        h2::after {
+            content: ''; display: block; width: 80px; height: 2px;
+            background: var(--text-primary); margin: 20px auto 0;
+        }
+
+        p { margin-bottom: 15px; }
+
+        .btn {
+            display: inline-block;
+            padding: 16px 40px;
+            background: var(--accent-core);
+            color: #fff;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            border: 1px solid var(--accent-core);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: var(--radius-btn);
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,33,71,0.2);
+            text-align: center;
+        }
+        .btn:hover {
+            background: #fff;
+            color: var(--accent-core);
+            transform: translateY(-2px);
+        }
+
+        .section-padding { padding: 90px 0; }
+
+        /* Анимация появления */
+        .reveal {
+            opacity: 0; transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* -----------------------------------------------------------
+           3. HEADER (ОТСТУП КАК НА РЕФЕРЕНСЕ)
+           ----------------------------------------------------------- */
+        .header {
+            position: fixed; top: 0; left: 0; width: 100%;
+            height: var(--header-height);
+            background: rgba(232, 244, 253, 0.98);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-ui);
+            z-index: 1000;
+            display: flex; align-items: center;
+            transition: height 0.3s;
+        }
+        .header-row { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            width: 100%; 
+        }
+        
+        /* Логотип + Текст */
+        .logo-container {
+            display: flex;
+            align-items: center; 
+            text-decoration: none;
+            /* ВОТ ЗДЕСЬ УВЕЛИЧЕННЫЙ ОТСТУП ПО РЕФЕРЕНСУ */
+            gap: 8px; 
+            max-width: 60%;
+        }
+        
+        .logo-img { 
+            height: 75px; 
+            width: auto; 
+            display: block; 
+            flex-shrink: 0; 
+        }
+        
+        .logo-text-block {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .logo-name {
+            color: var(--text-primary);
+            font-size: 1.25rem; /* Чуть крупнее имя */
+            line-height: 1.1;
+            font-weight: bold;
+            text-transform: uppercase; /* Или none, если как на референсе */
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+        .logo-role {
+            color: var(--text-muted); /* Серый цвет как на референсе */
+            font-size: 1.05rem;
+            font-style: normal; /* Убрал курсив, чтобы было строже как на фото */
+            margin-top: 4px;
+        }
+
+        /* Навигация */
+        .nav { display: flex; gap: 30px; align-items: center; }
+        .nav a {
+            text-decoration: none; color: var(--text-primary);
+            font-size: 1.1rem; text-transform: uppercase; font-weight: bold;
+            letter-spacing: 0.5px; border-bottom: 1px solid transparent; transition: 0.3s;
+        }
+        .nav a:hover { border-color: var(--accent-core); }
+
+        .header-btn-desktop { display: inline-block; }
+
+        /* Мобильное меню */
+        .mobile-btn { 
+            display: none; background: none; border: none; 
+            font-size: 2rem; color: var(--text-primary); 
+            cursor: pointer; padding: 10px;
+        }
+        
+        .mobile-menu {
+            position: fixed; top: var(--header-height); left: 0; width: 100%;
+            background: #fff; padding: 30px 20px; box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            flex-direction: column; gap: 20px; border-bottom: 1px solid var(--border-ui);
+            transform: translateY(-150%); transition: transform 0.4s ease;
+            z-index: 999; display: flex;
+        }
+        .mobile-menu.active { transform: translateY(0); }
+        .mobile-link {
+            font-size: 1.2rem; text-transform: uppercase; font-weight: bold;
+            color: var(--text-primary); text-decoration: none;
+            border-bottom: 1px solid #f0f0f0; padding-bottom: 10px; display: block;
+        }
+
+        /* -----------------------------------------------------------
+           4. HERO
+           ----------------------------------------------------------- */
+        .hero {
+            min-height: 85vh;
+            display: flex; align-items: center; justify-content: center;
+            text-align: center; position: relative; z-index: 1;
+        }
+        .hero-content {
+            max-width: 900px;
+            padding: 20px; 
+            margin: 0 auto;
+        }
+        .hero p {
+            font-size: 1.4rem; color: var(--text-primary);
+            margin-bottom: 40px; max-width: 800px; margin-left: auto; margin-right: auto;
+            line-height: 1.5;
+        }
+
+        /* -----------------------------------------------------------
+           5. ОБО МНЕ
+           ----------------------------------------------------------- */
+        .about-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 60px; align-items: start; }
+        .about-card {
+            background: var(--bg-card); padding: 40px;
+            border-radius: var(--radius-card); box-shadow: var(--shadow-soft);
+            border: 1px solid var(--border-ui);
+        }
+        .about-card p { font-size: 1.2rem; margin-bottom: 20px; text-align: justify; }
+        
+        .skill-list { list-style: none; margin-top: 30px; }
+        .skill-list li {
+            font-size: 1.15rem; padding: 12px 0;
+            border-bottom: 1px solid var(--border-ui);
+            display: flex; align-items: flex-start; gap: 15px;
+        }
+        .skill-list li:last-child { border: none; }
+        .check { color: var(--accent-bright); font-size: 1.4rem; line-height: 1; flex-shrink: 0; }
+
+        .photo-box img {
+            width: 100%; border-radius: var(--radius-card);
+            display: block; box-shadow: var(--shadow-soft);
+        }
+
+        /* -----------------------------------------------------------
+           6. УСЛУГИ
+           ----------------------------------------------------------- */
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 30px; }
+        .service-card {
+            background: var(--bg-card); height: 380px;
+            border-radius: var(--radius-card); position: relative; overflow: hidden;
+            box-shadow: var(--shadow-soft); transition: 0.4s ease; cursor: pointer;
+            border: 1px solid var(--border-ui);
+        }
+        .service-card:hover { transform: translateY(-5px); }
+        .service-card img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .service-overlay {
+            position: absolute; bottom: 0; left: 0; width: 100%;
+            background: linear-gradient(to top, rgba(0,33,71,0.95) 20%, transparent);
+            padding: 60px 30px 30px; color: #fff;
+        }
+        .service-overlay h3 { 
+            color: #fff; font-size: 1.5rem; margin-bottom: 8px; text-align: left;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        .service-overlay p { color: rgba(255,255,255,0.9); font-size: 1rem; text-align: left; }
+
+        /* -----------------------------------------------------------
+           7. ЦЕНЫ
+           ----------------------------------------------------------- */
+        .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .price-card {
+            background: #fff; padding: 40px; border-radius: var(--radius-card);
+            border: 1px solid var(--border-ui); text-align: center;
+            box-shadow: var(--shadow-soft); display: flex; flex-direction: column; justify-content: space-between;
+        }
+        .price-val { font-size: 2rem; font-weight: bold; color: var(--accent-bright); margin: 20px 0; font-style: italic; }
+        .price-desc { font-size: 1.1rem; margin-bottom: 30px; color: var(--text-muted); }
+
+        /* -----------------------------------------------------------
+           8. СЕРТИФИКАТЫ
+           ----------------------------------------------------------- */
+        .cert-grid {
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 40px; 
+            justify-content: center;
+        }
+        .cert-item {
+            background: transparent; 
+            padding: 0;
+            border: none;
+            box-shadow: none;
+            text-align: center;
+            transition: 0.3s;
+        }
+        .cert-item:hover { transform: scale(1.02); z-index: 2; }
+        .cert-item img { 
+            width: 100%; 
+            height: 400px; 
+            object-fit: contain; 
+            display: block; 
+            box-shadow: 0 10px 30px rgba(0,33,71,0.1);
+            border-radius: 5px; 
+        }
+
+        /* -----------------------------------------------------------
+           9. ОТЗЫВЫ
+           ----------------------------------------------------------- */
+        .reviews-container { position: relative; padding: 0 60px; }
+        .reviews-track {
+            display: flex; gap: 30px; overflow-x: auto; padding: 20px 0;
+            scrollbar-width: none; scroll-behavior: smooth;
+        }
+        .reviews-track::-webkit-scrollbar { display: none; }
+        .review-card {
+            min-width: 350px; max-width: 350px;
+            background: #fff; padding: 10px; border-radius: var(--radius-card); box-shadow: var(--shadow-soft);
+        }
+        .review-card img { width: 100%; border-radius: 10px; display: block; }
+        .slider-btn {
+            position: absolute; top: 50%; transform: translateY(-50%); width: 50px; height: 50px;
+            background: var(--accent-core); color: #fff; border: none; border-radius: 50%;
+            font-size: 1.5rem; cursor: pointer; z-index: 2; display: flex; align-items: center; justify-content: center;
+        }
+        .prev-btn { left: 0; } .next-btn { right: 0; }
+
+        .tutor-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .tutor-item {
+            background: #fff; padding: 10px; border-radius: var(--radius-card);
+            box-shadow: var(--shadow-soft); transition: 0.3s;
+        }
+        .tutor-item:hover { transform: translateY(-5px); }
+        .tutor-item img { width: 100%; height: auto; border-radius: 15px; display: block; }
+
+        /* -----------------------------------------------------------
+           10. ПОДВАЛ И ФОРМА
+           ----------------------------------------------------------- */
+        footer { background: #fff; padding: 80px 0; border-top: 1px solid var(--border-ui); margin-top: 80px; }
+        .footer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+        
+        .contact-info h3 { font-size: 2rem; margin-bottom: 20px; text-align: left; }
+        .contact-link {
+            display: block; font-size: 1.3rem; margin-bottom: 20px;
+            color: var(--text-primary); text-decoration: none; font-weight: bold;
+            word-wrap: break-word;
+        }
+        .socials { display: flex; gap: 15px; margin-top: 30px; flex-wrap: wrap; }
+        .social-link {
+            font-size: 1rem; text-transform: uppercase; color: var(--text-primary);
+            text-decoration: none; border-bottom: 1px solid var(--text-primary);
+        }
+
+        .form-widget {
+            background: var(--bg-body); padding: 40px;
+            border-radius: var(--radius-card);
+            border: 1px solid var(--border-ui);
+            box-shadow: var(--shadow-soft);
+        }
+        .form-title { font-size: 1.8rem; text-align: center; margin-bottom: 10px; font-weight: bold; }
+        .input-group { margin-bottom: 15px; }
+        .input-label { display: block; margin-bottom: 8px; font-weight: bold; font-size: 0.9rem; }
+        .input-field, .input-select, .input-area {
+            width: 100%; padding: 14px;
+            border: 1px solid #C4D9ED; border-radius: 12px;
+            background: #fff; font-family: var(--font-main); font-size: 1rem; color: var(--text-primary);
+        }
+
+        /* -----------------------------------------------------------
+           11. МОДАЛЬНЫЕ ОКНА
+           ----------------------------------------------------------- */
+        dialog {
+            margin: auto; padding: 0; border: none; background: transparent;
+            width: 95%; max-width: 800px; z-index: 2000;
+        }
+        dialog::backdrop { background: rgba(0,33,71,0.7); backdrop-filter: blur(5px); }
+        
+        .modal-box {
+            background: #fff; padding: 40px 30px; position: relative;
+            border-radius: var(--radius-card);
+            box-shadow: 0 25px 80px rgba(0,0,0,0.4);
+            max-height: 90vh; overflow-y: auto;
+        }
+        
+        .close-modal {
+            position: absolute; top: 15px; right: 15px;
+            background: transparent; border: none; outline: none;
+            font-size: 2.5rem; cursor: pointer; color: var(--text-muted);
+            line-height: 0.7; padding: 0; transition: color 0.3s;
+        }
+        .close-modal:hover { color: var(--accent-bright); }
+
+        /* -----------------------------------------------------------
+           12. ФОНОВАЯ АНИМАЦИЯ
+           ----------------------------------------------------------- */
+        #doc-system-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; pointer-events: none;
+        }
+        .bg-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, rgba(232,244,253, 0.75) 0%, rgba(232,244,253, 0.98) 90%);
+            z-index: 0; pointer-events: none;
+        }
+
+        /* -----------------------------------------------------------
+           13. АДАПТИВ (MOBILE)
+           ----------------------------------------------------------- */
+        @media (max-width: 1000px) {
+            .about-grid, .pricing-grid, .footer-grid { grid-template-columns: 1fr; }
+            .cert-grid, .tutor-grid { grid-template-columns: 1fr; }
+            .nav, .header-btn-desktop { display: none; }
+            .mobile-btn { display: block; }
+            
+            /* Адаптация логотипа для мобильных */
+            .logo-container { gap: 15px; } /* Сохраняем отступ на моб */
+            .logo-img { height: 60px; }
+            .logo-name { font-size: 1rem; }
+            .logo-role { font-size: 0.9rem; }
+
+            .hero h1 { font-size: 2.2rem; }
+            .hero-content { padding: 30px 10px; }
+            
+            .photo-box { max-width: 400px; margin: 0 auto; }
+            .services-grid { grid-template-columns: 1fr; }
+            
+            .reviews-container { padding: 0; }
+            .slider-btn { display: none; }
+            .reviews-track { padding: 10px 20px; }
+            
+            .modal-box { padding: 30px 20px; }
+            .form-widget { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ФОНОВАЯ СИСТЕМА -->
+    <canvas id="doc-system-bg"></canvas>
+    <div class="bg-overlay"></div>
+
+    <!-- ШАПКА -->
+    <header class="header">
+        <div class="container header-row">
+            <!-- Логотип + Имя (С зазором 24px) -->
+            <a href="#" class="logo-container">
+                <img src="logo.png" alt="Логотип" class="logo-img">
+                <div class="logo-text-block">
+                    <div class="logo-name">Ирина Полухина</div>
+                    <div class="logo-role">документовед</div>
+                </div>
+            </a>
+            
+            <!-- Десктоп Меню -->
+            <nav class="nav">
+                <a href="#about">Обо мне</a>
+                <a href="#services">Услуги</a>
+                <a href="#pricing">Стоимость</a>
+                <a href="#reviews">Отзывы</a>
+                <a href="#contact">Контакты</a>
+            </nav>
+            <a href="#contact" class="btn header-btn-desktop" style="padding:12px 25px; font-size:0.9rem;">Заявка</a>
+            
+            <!-- Мобильная Кнопка -->
+            <button class="mobile-btn" onclick="toggleMobileMenu()">☰</button>
+        </div>
+
+        <!-- Мобильное Меню -->
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="#about" class="mobile-link" onclick="toggleMobileMenu()">Обо мне</a>
+            <a href="#services" class="mobile-link" onclick="toggleMobileMenu()">Услуги</a>
+            <a href="#pricing" class="mobile-link" onclick="toggleMobileMenu()">Стоимость</a>
+            <a href="#reviews" class="mobile-link" onclick="toggleMobileMenu()">Отзывы</a>
+            <a href="#contact" class="mobile-link" onclick="toggleMobileMenu()">Контакты</a>
+            <button class="btn" style="width:100%; margin-top:10px;" onclick="toggleMobileMenu(); window.location.href='#contact'">Оставить заявку</button>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-content reveal active">
+            <h1>Делопроизводство и Архив<br>легко, понятно, структурно</h1>
+            <p>Архитектура корпоративного порядка!<br>
+            20 лет опыта: от создания обычного документа (письма, приказа) до разработки номенклатуры дел организации, а также сдачи документов ликвидируемой организации в Главархив.</p>
+            <a href="#contact" class="btn">Получить консультацию</a>
+        </div>
+    </section>
+
+    <!-- ОБО МНЕ -->
+    <section id="about" class="section-padding">
+        <div class="container">
+            <h2 class="reveal">Обо мне</h2>
+            <div class="about-grid reveal">
+                <div class="about-card">
+                    <p>Добрый день! Меня зовут Полухина Ирина Евгеньевна. Я документовед со стажем работы с документами более 20 лет.</p>
+                    <p>Начинала свой путь в 2002 году с должности секретаря. Мой главный принцип – культура документов основа любой компании.</p>
+                    
+                    <ul class="skill-list">
+                        <li><span class="check">✓</span> Профильное образование: Историко – архивный институт.</li>
+                        <li><span class="check">✓</span> Руководитель отдела с 2007 по 2021 год.</li>
+                        <li><span class="check">✓</span> Владение ПО: 1С Документооборот, Directum, Ефрат, Дело, PayDox, ЕОСДО.</li>
+                    </ul>
+                </div>
+                <div class="photo-box">
+                    <img src="photo_me.jpg" alt="Ирина Полухина">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- УСЛУГИ -->
+    <section id="services" class="section-padding">
+        <div class="container">
+            <h2 class="reveal">Чем я могу помочь</h2>
+            <div class="services-grid reveal">
+                <div class="service-card" onclick="openServiceDetail('audit')">
+                    <img src="service_audit.jpg" alt="Аудит">
+                    <div class="service-overlay"><h3>Аудит делопроизводства</h3><p>Полная проверка документов</p></div>
+                </div>
+                <div class="service-card" onclick="openServiceDetail('lna')">
+                    <img src="service_lna.jpg" alt="ЛНА">
+                    <div class="service-overlay"><h3>Разработка ЛНА</h3><p>Регламенты и инструкции</p></div>
+                </div>
+                <div class="service-card" onclick="openServiceDetail('archive')">
+                    <img src="service_archive.jpg" alt="Архив">
+                    <div class="service-overlay"><h3>Архивное дело</h3><p>Систематизация и сдача</p></div>
+                </div>
+                <div class="service-card" onclick="openServiceDetail('search')">
+                    <img src="service_search.jpg" alt="Поиск">
+                    <div class="service-overlay"><h3>Поиск документов</h3><p>Стаж, родословная, акты</p></div>
+                </div>
+                <div class="service-card" onclick="openServiceDetail('edu')">
+                    <img src="service_edu.jpg" alt="Обучение">
+                    <div class="service-overlay"><h3>Обучение</h3><p>Вебинары и наставничество</p></div>
+                </div>
+                <div class="service-card" onclick="openServiceDetail('edo')">
+                    <img src="service_edo.jpg" alt="ЭДО">
+                    <div class="service-overlay"><h3>Внедрение ЭДО</h3><p>Цифровизация процессов</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- СТОИМОСТЬ -->
+    <section id="pricing" class="section-padding">
+        <div class="container">
+            <h2 class="reveal">Стоимость услуг</h2>
+            <div class="pricing-grid reveal">
+                <div class="price-card">
+                    <h3>Консультация</h3>
+                    <div class="price-val">от 3 000 ₽</div>
+                    <div class="price-desc">Онлайн-разбор вашего вопроса по документам или архиву.</div>
+                    <button class="btn" onclick="scrollToForm('Консультация')" style="width:100%">Заказать</button>
+                </div>
+                <div class="price-card">
+                    <h3>Аудит "под ключ"</h3>
+                    <div class="price-val">от 15 000 ₽</div>
+                    <div class="price-desc">Выезд/анализ, отчет о рисках, план исправлений.</div>
+                    <button class="btn" onclick="scrollToForm('Аудит делопроизводства')" style="width:100%">Заказать</button>
+                </div>
+                <div class="price-card">
+                    <h3>Сопровождение</h3>
+                    <div class="price-val">Индивидуально</div>
+                    <div class="price-desc">Аутсорсинг делопроизводства или сдача архива при ликвидации.</div>
+                    <button class="btn" onclick="scrollToForm('Сопровождение')" style="width:100%">Заказать</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ДИПЛОМЫ -->
+    <section class="section-padding">
+        <div class="container">
+            <h2 class="reveal">Дипломы и Квалификация</h2>
+            <div class="cert-grid reveal">
+                <div class="cert-item"><img src="cert_1.jpg"></div>
+                <div class="cert-item"><img src="cert_2.jpg"></div>
+                <div class="cert-item"><img src="cert_3.jpg"></div>
+                <div class="cert-item"><img src="cert_4.jpg"></div>
+                <div class="cert-item"><img src="cert_5.jpg"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ОТЗЫВЫ БИЗНЕС -->
+    <section id="reviews" class="section-padding" style="background:#fff;">
+        <div class="container">
+            <h2 class="reveal">Отзывы клиентов (Бизнес)</h2>
+            <div class="reviews-container reveal">
+                <button class="slider-btn prev-btn" onclick="scrollReviews(-340)">&#8249;</button>
+                <div class="reviews-track" id="reviewsTrack">
+                    <div class="review-card"><img src="review_1.jpg" alt="Отзыв 1"></div>
+                    <div class="review-card"><img src="review_2.jpg" alt="Отзыв 2"></div>
+                    <div class="review-card"><img src="review_3.jpg" alt="Отзыв 3"></div>
+                </div>
+                <button class="slider-btn next-btn" onclick="scrollReviews(340)">&#8250;</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ОТЗЫВЫ РЕПЕТИТОРСТВО -->
+    <section class="section-padding" style="background:#F2F9FF;">
+        <div class="container">
+            <h2 class="reveal">Отзывы учеников (Репетиторство)</h2>
+            <div class="tutor-grid reveal">
+                <div class="tutor-item"><img src="tutor_1.jpg" alt="Ученик 1"></div>
+                <div class="tutor-item"><img src="tutor_2.jpg" alt="Ученик 2"></div>
+                <div class="tutor-item"><img src="tutor_3.jpg" alt="Ученик 3"></div>
+                <div class="tutor-item"><img src="tutor_4.jpg" alt="Ученик 4"></div>
+                <div class="tutor-item"><img src="tutor_5.jpg" alt="Ученик 5"></div>
+                <div class="tutor-item"><img src="tutor_6.jpg" alt="Ученик 6"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ПОДВАЛ -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-grid">
+                
+                <div class="contact-info">
+                    <h3>Контакты для связи</h3>
+                    <p style="margin-bottom:30px; font-size:1.2rem;">Если у вас остались вопросы или вы готовы начать сотрудничество — заполните форму или напишите мне.</p>
+                    
+                    <a href="mailto:15.09.19.76@mail.ru" class="contact-link">15.09.19.76@mail.ru</a>
+                    
+                    <div class="socials">
+                        <a href="https://doc-normativ.shop" target="_blank" class="social-link">Магазин</a>
+                        <a href="https://m.tenchat.ru/u/mDml4dir" target="_blank" class="social-link">TenChat</a>
+                        <a href="https://profi.ru/profile/PoluhinaIE" target="_blank" class="social-link">Profi.ru</a>
+                        <a href="https://instagram.com/doc_sozdat" target="_blank" class="social-link">Instagram</a>
+                    </div>
+                </div>
+
+                <div class="form-widget">
+                    <div class="form-title">Оставить заявку</div>
+                    <div class="form-sub">Свяжусь с вами в течение 24 часов</div>
+                    <form id="footerForm">
+                        <div class="input-group">
+                            <label class="input-label">Формат (Тематика)</label>
+                            <select id="req_service" class="input-select">
+                                <option value="Консультация">Консультация</option>
+                                <option value="Аудит делопроизводства">Аудит делопроизводства</option>
+                                <option value="Разработка ЛНА">Разработка ЛНА</option>
+                                <option value="Архивное дело">Архивное дело</option>
+                                <option value="Поиск документов">Поиск документов</option>
+                                <option value="Внедрение ЭДО">Внедрение ЭДО</option>
+                                <option value="Другое">Другое</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Контакты</label>
+                            <input type="text" id="req_contact" class="input-field" placeholder="+7... или @user" required>
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Ваш вопрос</label>
+                            <textarea id="req_message" class="input-area" rows="3" placeholder="Кратко опишите проблему..."></textarea>
+                        </div>
+                        <button type="submit" class="btn" style="width:100%;">Отправить</button>
+                    </form>
+                </div>
+
+            </div>
+            <div style="text-align:center; margin-top:80px; color:#999; font-size:0.9rem; border-top:1px solid #eee; padding-top:30px;">
+                © 2025. Полухина Ирина Евгеньевна. Архитектура корпоративного порядка.
+            </div>
+        </div>
+    </footer>
+
+    <!-- МОДАЛЬНЫЕ ОКНА -->
+    <dialog id="modalAnketa">
+        <div class="modal-box">
+            <button class="close-modal" onclick="document.getElementById('modalAnketa').close()">×</button>
+            <h3 style="text-align:center; margin-bottom:20px; font-size:1.8rem;">АНКЕТА-Заявка на участие</h3>
+            <form id="formAnketa">
+                <div style="display:grid; grid-template-columns:1fr; gap:15px;">
+                    <input type="text" id="ank_fio" class="input-field" placeholder="ФИО Участника" required>
+                    <input type="text" id="ank_pos" class="input-field" placeholder="Должность">
+                    <input type="text" id="ank_age" class="input-field" placeholder="Возраст">
+                    <input type="email" id="ank_email" class="input-field" placeholder="E-mail" required>
+                    <input type="tel" id="ank_phone" class="input-field" placeholder="Телефон" required>
+                    <input type="text" id="ank_city" class="input-field" placeholder="Город">
+                    <textarea id="ank_problems" class="input-area" rows="2" placeholder="Проблемы в деятельности?"></textarea>
+                    <textarea id="ank_topics" class="input-area" rows="2" placeholder="Темы для изучения?"></textarea>
+                    <textarea id="ank_about" class="input-area" rows="2" placeholder="Расскажите о себе"></textarea>
+                </div>
+                <button type="submit" class="btn" style="width:100%; margin-top:20px;">Отправить анкету</button>
+            </form>
+        </div>
+    </dialog>
+
+    <dialog id="serviceModal">
+        <div class="modal-box">
+            <button class="close-modal" onclick="document.getElementById('serviceModal').close()">×</button>
+            <h3 id="srvTitle" style="font-size:2rem; margin-bottom:15px; color:var(--accent-core);"></h3>
+            <p id="srvDesc" style="font-size:1.2rem; margin-bottom:20px; color:var(--text-primary);"></p>
+            <ul id="srvList" style="margin-bottom:30px; font-size:1.1rem; padding-left:20px; line-height:1.8;"></ul>
+            <button class="btn" id="srvActionBtn" style="width:100%;">Действие</button>
+        </div>
+    </dialog>
+
+    <!-- СКРИПТЫ -->
+    <script>
+        // Анимация при скролле
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('active'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        document.querySelector('.hero-content').classList.add('active');
+
+        // Меню мобильное
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('active');
+        }
+
+        // Слайдер отзывов
+        function scrollReviews(amount) {
+            document.getElementById('reviewsTrack').scrollBy({ left: amount, behavior: 'smooth' });
+        }
+
+        // Логика услуг
+        const services = {
+            'audit': { title: 'Аудит делопроизводства', desc: 'Комплексная проверка состояния документов в вашей организации. Анализ текущих процессов, выявление рисков и план исправлений.', list: ['Проверка номенклатуры дел', 'Анализ соответствия ГОСТ', 'Оценка архива', 'Отчет с рекомендациями'] },
+            'lna': { title: 'Разработка ЛНА', desc: 'Создание четкой нормативной базы. Документы будут работать на бизнес, а не лежать "мертвым грузом".', list: ['Инструкции по делопроизводству', 'Положения о подразделениях', 'Должностные инструкции', 'Правила трудового распорядка'] },
+            'archive': { title: 'Архивное дело', desc: 'Полный цикл работы с архивом: от систематизации разрозненных бумаг до официальной сдачи в Госархив.', list: ['Научно-техническая обработка', 'Переплет и опись', 'Сопровождение сдачи в Главархив'] },
+            'search': { title: 'Поиск документов', desc: 'Помощь в получении справок и копий документов из любых архивов РФ и стран СНГ.', list: ['Запросы социально-правового характера', 'Поиск документов о рождении, браке', 'Кадастровые дела', 'Взаимодействие с ЗАГС/МВД'] },
+            'edu': { title: 'Обучение', desc: 'Передача 20-летнего опыта.', list: ['Корпоративные вебинары', 'Наставничество', 'Марафоны'] },
+            'edo': { title: 'Внедрение ЭДО', desc: 'Помощь в переходе от бумажного документооборота к электронному.', list: ['Анализ процессов для цифры', 'Регламенты использования ЭЦП', 'Настройка маршрутов', 'Обучение персонала'] }
+        };
+
+        function openServiceDetail(id) {
+            const data = services[id];
+            document.getElementById('srvTitle').innerText = data.title;
+            document.getElementById('srvDesc').innerText = data.desc;
+            const ul = document.getElementById('srvList'); ul.innerHTML = '';
+            data.list.forEach(item => ul.innerHTML += `<li>♦ ${item}</li>`);
+            
+            const btn = document.getElementById('srvActionBtn');
+            if(id === 'edu') {
+                btn.innerText = 'Заполнить АНКЕТУ участника';
+                btn.onclick = () => { document.getElementById('serviceModal').close(); document.getElementById('modalAnketa').showModal(); };
+            } else {
+                btn.innerText = 'Заказать эту услугу';
+                btn.onclick = () => { document.getElementById('serviceModal').close(); scrollToForm(data.title); };
+            }
+            document.getElementById('serviceModal').showModal();
+        }
+
+        function scrollToForm(serviceName) {
+            const select = document.getElementById('req_service');
+            select.value = serviceName;
+            if(select.value !== serviceName) select.value = 'Другое';
+            document.getElementById('contact').scrollIntoView({behavior: 'smooth'});
+        }
+
+        // Telegram
+        const TOKEN = '7583858867:AAEOAsVJpiTFdYVYmJQGR4TyDfAOfqKR0gU';
+        const CHAT_ID = '8009647409';
+
+        async function sendTg(text) {
+            try {
+                await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({chat_id: CHAT_ID, text: text, parse_mode: 'HTML'})
+                });
+                alert('Заявка отправлена!');
+            } catch(e) { alert('Ошибка отправки'); }
+        }
+
+        document.getElementById('footerForm').onsubmit = (e) => {
+            e.preventDefault();
+            const s = document.getElementById('req_service').value;
+            const c = document.getElementById('req_contact').value;
+            const m = document.getElementById('req_message').value;
+            sendTg(`📩 <b>ЗАЯВКА (ПОДВАЛ)</b>\n\n📂 Тема: ${s}\n📞 Контакт: ${c}\n❓ Вопрос: ${m}`);
+            e.target.reset();
+        };
+
+        document.getElementById('formAnketa').onsubmit = (e) => {
+            e.preventDefault();
+            const f = document.getElementById('ank_fio').value;
+            const ph = document.getElementById('ank_phone').value;
+            sendTg(`🎓 <b>АНКЕТА</b>\n\n👤 ФИО: ${f}\n📞 Тел: ${ph}\n(Подробности в форме)`);
+            document.getElementById('modalAnketa').close();
+            e.target.reset();
+        };
+
+        // Canvas
+        const canvas = document.getElementById('doc-system-bg');
+        const ctx = canvas.getContext('2d');
+        let w, h;
+        function resize() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; }
+        window.onresize = resize; resize();
+
+        class DocBlock {
+            constructor() { this.init(); }
+            init() {
+                this.w = 150 + Math.random()*100; this.h = 40 + Math.random()*40;
+                this.x = Math.random()*(w-this.w); this.y = Math.random()*(h-this.h);
+                this.life=0; this.maxLife=200+Math.random()*200; this.opacity=0; this.state='in';
+            }
+            update() {
+                if(this.state==='in') { this.opacity+=0.01; if(this.opacity>=0.5) this.state='hold'; }
+                else if(this.state==='hold') { this.life++; if(this.life>this.maxLife) this.state='out'; }
+                else { this.opacity-=0.01; if(this.opacity<=0) this.init(); }
+            }
+            draw() {
+                ctx.fillStyle=`rgba(0,33,71,${0.05*this.opacity})`; ctx.strokeStyle=`rgba(0,33,71,${0.1*this.opacity})`;
+                ctx.beginPath(); ctx.roundRect(this.x,this.y,this.w,this.h,4); ctx.fill(); ctx.stroke();
+                ctx.fillStyle=`rgba(0,33,71,${0.1*this.opacity})`;
+                ctx.fillRect(this.x+10,this.y+10,this.w-20,4); ctx.fillRect(this.x+10,this.y+20,this.w*0.6,4);
+            }
+        }
+        const blocks = Array.from({length:5}, ()=>new DocBlock());
+        function animate() {
+            ctx.clearRect(0,0,w,h);
+            ctx.strokeStyle='rgba(0,33,71,0.03)'; ctx.lineWidth=1; ctx.beginPath();
+            for(let x=0;x<w;x+=60){ctx.moveTo(x,0);ctx.lineTo(x,h);}
+            for(let y=0;y<h;y+=60){ctx.moveTo(0,y);ctx.lineTo(w,y);}
+            ctx.stroke();
+            blocks.forEach(b=>{b.update();b.draw();});
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+</body>
+</html>
